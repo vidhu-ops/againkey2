@@ -22,7 +22,24 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build debug APK
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleDebug --stacktrace 2>&1 | tee build-output.log
+        continue-on-error: true
+        id: build_step
+
+      - name: Commit build log on failure
+        if: steps.build_step.outcome == 'failure'
+        run: |
+          git config user.email "bot@local"
+          git config user.name "CI Bot"
+          git add -f build-output.log
+          git commit -m "CI build log (failed run ${{ github.run_number }})"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fail job if build failed
+        if: steps.build_step.outcome == 'failure'
+        run: exit 1
 
       - uses: actions/upload-artifact@v4
         with:

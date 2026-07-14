@@ -1,0 +1,157 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Tone Rewriter Keyboard"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="Set up your free API key, then enable the keyboard below."
+            android:textColor="#9a9a9a"
+            android:textSize="13sp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="AI provider"
+            android:textColor="#9a9a9a"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:id="@+id/providerSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp" />
+
+        <TextView
+            android:text="API key"
+            android:textColor="#9a9a9a"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/apiKeyField"
+            android:inputType="textPassword"
+            android:hint="Paste your API key"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#666666"
+            android:background="@color/panel"
+            android:padding="10dp"
+            android:layout_marginBottom="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="Groq: console.groq.com/keys  ·  Gemini: aistudio.google.com/apikey"
+            android:textColor="#666666"
+            android:textSize="11sp"
+            android:layout_marginBottom="14dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="Model override (optional)"
+            android:textColor="#9a9a9a"
+            android:textSize="12sp"
+            android:layout_marginBottom="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/modelField"
+            android:hint="Leave blank for default"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#666666"
+            android:background="@color/panel"
+            android:padding="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:text="Save settings"
+            android:backgroundTint="@color/accent"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:background="#333333"
+            android:layout_height="1dp"
+            android:layout_marginBottom="24dp"
+            android:layout_width="match_parent" />
+
+        <TextView
+            android:text="Step 1 — Enable the keyboard"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="Opens system settings — turn on &quot;Tone Rewriter Keyboard&quot; in the list."
+            android:textColor="#9a9a9a"
+            android:textSize="12sp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/enableKeyboardButton"
+            android:text="Open keyboard settings"
+            android:backgroundTint="@color/panel"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="Step 2 — Switch to it"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="While typing anywhere, tap this to pick Tone Rewriter Keyboard from the picker."
+            android:textColor="#9a9a9a"
+            android:textSize="12sp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/switchKeyboardButton"
+            android:text="Show keyboard picker"
+            android:backgroundTint="@color/panel"
+            android:textColor="#FFFFFF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>

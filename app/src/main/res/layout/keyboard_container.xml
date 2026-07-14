@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/panel">
+
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/rewriteButton"
+            android:text="✨ Rewrite selection"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/statusText"
+            android:textColor="#7cd992"
+            android:textSize="12sp"
+            android:layout_marginStart="12dp"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/toneRow"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </HorizontalScrollView>
+
+    <android.inputmethodservice.KeyboardView
+        android:id="@+id/keyboardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2a2a2a"
+        android:keyBackground="@drawable/key_bg"
+        android:keyTextColor="#FFFFFF"
+        android:keyTextSize="18sp"
+        android:padding="4dp"
+        android:layout_marginTop="2dp" />
+
+</LinearLayout>

@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.ToneRewriter" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/accent</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/bg</item>
+    </style>
+</resources>

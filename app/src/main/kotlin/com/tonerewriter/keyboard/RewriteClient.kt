@@ -17,10 +17,69 @@ object RewriteClient {
             throw IllegalStateException("No API key set. Open the Tone Rewriter Keyboard app to add one.")
         }
 
-        val prompt = "Rewrite the following text in a $tone tone. " +
-            "Preserve the original meaning and roughly the same length. " +
-            "Return ONLY the rewritten text, with no quotes, preamble, or explanation.\n\n" +
+        val prompt = if (tone == "Smart") {
+            "Rewrite the following text so it sounds highly intelligent and erudite. " +
+                "Upgrade common words to more sophisticated, precise, less-common synonyms " +
+                "(e.g. \"use\" -> \"utilize\", \"show\" -> \"demonstrate\" or \"elucidate\", " +
+                "\"big\" -> \"substantial\" or \"considerable\"). Favor Latinate and multisyllabic " +
+                "vocabulary over plain equivalents wherever it stays natural, tighten the sentence " +
+                "structure, and keep it precise rather than padded with filler. Do not change the " +
+                "meaning, and do not make it noticeably longer than the original. " +
+                "Return ONLY the rewritten text, with no quotes, preamble, or explanation.\n\n" +
+                "Text:\n$text"
+        } else {
+            "Rewrite the following text in a $tone tone. " +
+                "Preserve the original meaning and roughly the same length. " +
+                "Return ONLY the rewritten text, with no quotes, preamble, or explanation.\n\n" +
+                "Text:\n$text"
+        }
+
+        return if (provider == "gemini") {
+            callGemini(prompt, apiKey, model.ifBlank { "gemini-2.0-flash" })
+        } else {
+            callGroq(prompt, apiKey, model.ifBlank { "llama-3.3-70b-versatile" })
+        }
+    }
+
+    /**
+     * Fixes spelling and grammar only — does not change tone, wording choices, or meaning
+     * beyond what's needed to correct actual errors.
+     */
+    fun spellCheck(text: String, provider: String, apiKey: String, model: String): String {
+        if (apiKey.isBlank()) {
+            throw IllegalStateException("No API key set. Open the Tone Rewriter Keyboard app to add one.")
+        }
+
+        val prompt = "Correct only the spelling and grammar mistakes in the following text. " +
+            "Do not change the tone, word choice, phrasing, or meaning otherwise — leave " +
+            "correctly-spelled words and correct grammar exactly as they are. " +
+            "Return ONLY the corrected text, with no quotes, preamble, or explanation.\n\n" +
             "Text:\n$text"
+
+        return if (provider == "gemini") {
+            callGemini(prompt, apiKey, model.ifBlank { "gemini-2.0-flash" })
+        } else {
+            callGroq(prompt, apiKey, model.ifBlank { "llama-3.3-70b-versatile" })
+        }
+    }
+
+    /**
+     * Treats the selected text as a question or topic and replaces it with an informative,
+     * intelligent-sounding answer — elevated vocabulary, well-structured, substantive.
+     */
+    fun smartAnswer(text: String, provider: String, apiKey: String, model: String): String {
+        if (apiKey.isBlank()) {
+            throw IllegalStateException("No API key set. Open the Tone Rewriter Keyboard app to add one.")
+        }
+
+        val prompt = "The following text is a question or topic someone typed in a chat. " +
+            "Write a clear, informative, well-reasoned answer to it, as if written by a " +
+            "knowledgeable, articulate person. Use precise, sophisticated vocabulary and " +
+            "well-structured sentences, but stay clear and correct — never sacrifice accuracy " +
+            "for fancy words, and don't ramble. Keep it to roughly 2-5 sentences unless the " +
+            "topic genuinely needs more. Return ONLY the answer text, with no quotes, preamble, " +
+            "or explanation.\n\n" +
+            "Question/topic:\n$text"
 
         return if (provider == "gemini") {
             callGemini(prompt, apiKey, model.ifBlank { "gemini-2.0-flash" })

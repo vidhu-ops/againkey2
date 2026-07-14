@@ -4,32 +4,58 @@
     android:layout_height="wrap_content"
     android:background="@color/panel">
 
-    <LinearLayout
-        android:id="@+id/topBar"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="6dp"
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
-        <Button
-            android:id="@+id/rewriteButton"
-            android:text="✨ Rewrite selection"
-            android:textColor="#FFFFFF"
-            android:textSize="13sp"
-            android:background="@android:color/transparent"
+        <LinearLayout
+            android:id="@+id/topBar"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="6dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/statusText"
-            android:textColor="#7cd992"
-            android:textSize="12sp"
-            android:layout_marginStart="12dp"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/rewriteButton"
+                android:text="✨ Rewrite"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/spellingButton"
+                android:text="🩹 Fix spelling"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:background="@android:color/transparent"
+                android:layout_marginStart="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/smartAnswerButton"
+                android:text="🎓 Smart answer"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:background="@android:color/transparent"
+                android:layout_marginStart="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/statusText"
+                android:textColor="#7cd992"
+                android:textSize="12sp"
+                android:layout_marginStart="12dp"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <HorizontalScrollView
         android:layout_width="match_parent"

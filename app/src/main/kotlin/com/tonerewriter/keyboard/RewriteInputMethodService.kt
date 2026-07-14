@@ -21,6 +21,8 @@ class RewriteInputMethodService : InputMethodService(), KeyboardView.OnKeyboardA
     private lateinit var symbolsKeyboard: Keyboard
     private lateinit var toneRow: LinearLayout
     private lateinit var rewriteButton: Button
+    private lateinit var spellingButton: Button
+    private lateinit var smartAnswerButton: Button
     private lateinit var statusText: TextView
 
     private var capsLock = false
@@ -29,7 +31,7 @@ class RewriteInputMethodService : InputMethodService(), KeyboardView.OnKeyboardA
     private val mainHandler = Handler(Looper.getMainLooper())
     private val executor = Executors.newSingleThreadExecutor()
 
-    private val tones = listOf("Professional", "Friendly", "Concise", "Persuasive", "Casual", "Confident")
+    private val tones = listOf("Smart", "Professional", "Friendly", "Concise", "Persuasive", "Casual", "Confident")
 
     override fun onCreateInputView(): View {
         val root = layoutInflater.inflate(R.layout.keyboard_container, null) as LinearLayout
@@ -37,6 +39,8 @@ class RewriteInputMethodService : InputMethodService(), KeyboardView.OnKeyboardA
         keyboardView = root.findViewById(R.id.keyboardView)
         toneRow = root.findViewById(R.id.toneRow)
         rewriteButton = root.findViewById(R.id.rewriteButton)
+        spellingButton = root.findViewById(R.id.spellingButton)
+        smartAnswerButton = root.findViewById(R.id.smartAnswerButton)
         statusText = root.findViewById(R.id.statusText)
 
         qwertyKeyboard = Keyboard(this, R.xml.qwerty)
@@ -46,6 +50,8 @@ class RewriteInputMethodService : InputMethodService(), KeyboardView.OnKeyboardA
 
         buildToneChips()
         rewriteButton.setOnClickListener { onRewriteTapped() }
+        spellingButton.setOnClickListener { runSpellCheck() }
+        smartAnswerButton.setOnClickListener { runSmartAnswer() }
 
         return root
     }
@@ -118,6 +124,80 @@ class RewriteInputMethodService : InputMethodService(), KeyboardView.OnKeyboardA
                     Toast.makeText(
                         this@RewriteInputMethodService,
                         e.message ?: "Rewrite failed",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
+
+    private fun runSpellCheck() {
+        val ic = currentInputConnection ?: return
+        val selected = ic.getSelectedText(0)?.toString()
+        if (selected.isNullOrEmpty()) {
+            Toast.makeText(this, "Select some text first, then tap Fix spelling", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        toneRow.visibility = View.GONE
+        statusText.text = "Fixing spelling…"
+        statusText.visibility = View.VISIBLE
+
+        val prefs = Prefs(this)
+        val provider = prefs.provider
+        val apiKey = prefs.apiKey
+        val model = prefs.model
+
+        executor.execute {
+            try {
+                val result = RewriteClient.spellCheck(selected, provider, apiKey, model)
+                mainHandler.post {
+                    ic.commitText(result, 1)
+                    statusText.visibility = View.GONE
+                }
+            } catch (e: Exception) {
+                mainHandler.post {
+                    statusText.visibility = View.GONE
+                    Toast.makeText(
+                        this@RewriteInputMethodService,
+                        e.message ?: "Spell check failed",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+    }
+
+    private fun runSmartAnswer() {
+        val ic = currentInputConnection ?: return
+        val selected = ic.getSelectedText(0)?.toString()
+        if (selected.isNullOrEmpty()) {
+            Toast.makeText(this, "Select the question/topic text first, then tap Smart answer", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        toneRow.visibility = View.GONE
+        statusText.text = "Thinking of a smart answer…"
+        statusText.visibility = View.VISIBLE
+
+        val prefs = Prefs(this)
+        val provider = prefs.provider
+        val apiKey = prefs.apiKey
+        val model = prefs.model
+
+        executor.execute {
+            try {
+                val result = RewriteClient.smartAnswer(selected, provider, apiKey, model)
+                mainHandler.post {
+                    ic.commitText(result, 1)
+                    statusText.visibility = View.GONE
+                }
+            } catch (e: Exception) {
+                mainHandler.post {
+                    statusText.visibility = View.GONE
+                    Toast.makeText(
+                        this@RewriteInputMethodService,
+                        e.message ?: "Smart answer failed",
                         Toast.LENGTH_LONG
                     ).show()
                 }
